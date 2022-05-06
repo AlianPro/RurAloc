@@ -1,0 +1,23 @@
+@layout('layouts/main')
+
+@set('title', 'Criar Vídeo')
+@set('title', 'Coloque os campos do vídeo para a sua criação')
+
+@section('content')
+
+<p>Criar Reserva
+<form action="{{ route('reservas.store') }}" method="post">
+  {{ csrfField() }}
+  <fieldset>
+    @!form.input({ title: 'Título', name: 'title', type: 'text' })
+
+    @!form.input({ title: 'Descrição', name: 'description', type: 'text' })
+
+    @!form.input({ title: 'Youtube Key', name: 'youtubeKey', type: 'text' })
+
+    @!form.button({ name: 'Criar' })
+
+    <a href="{{ route('reservas.index') }}">Cancelar</a>
+  </fieldset>
+</form>
+@endsection

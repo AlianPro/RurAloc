@@ -1,0 +1,24 @@
+@layout('layouts/main')
+
+@set('title', 'Listando os Reservas')
+
+@section('content')
+  <a href="{{ route('reservas.create') }}">Novo Reserva</a>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      @each(reserva in reservas)
+        <tr>
+          <td><a href="{{ route('reservas.show', { id: reserva.id })}}">{{ reserva.title }}</a></td>
+          <td>{{ reserva.description }}</td>
+        </tr>
+      @endeach
+    </tbody>
+  </table>
+@endsection

@@ -1,0 +1,19 @@
+@layout('layouts/main-create')
+
+
+@section('content')
+
+<form action="{{ route('users.store') }}" method="POST">
+  {{ csrfField() }}
+  <fieldset>
+    @!form.input({ title: 'Email', name: 'email', type: 'email' })
+
+    @!form.input({ title: 'Senha', name: 'password', type: 'password' })
+
+    @!form.input({ title: 'Confirme a Senha', name: 'confirm_password', type: 'password' })
+
+    @!form.button({ name: 'Cadastrar' })
+  </fieldset>
+</form>
+<a class="text-sm text-blue-900 hover:underline" href="{{ route('index')}}">Voltar</a>
+@endsection
