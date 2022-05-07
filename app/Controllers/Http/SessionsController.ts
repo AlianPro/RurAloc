@@ -2,6 +2,8 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import Sala from 'App/Models/Sala'
 import UserCreateValidator from 'App/Validators/UserCreateValidator'
+import Database from '@ioc:Adonis/Lucid/Database'
+import databaseConfig from 'Config/database'
 
 export default class SessionsController {
   public async create({ view }: HttpContextContract) {
@@ -12,9 +14,11 @@ export default class SessionsController {
     const email = request.input('email')
     const password = request.input('password')
     const salas = await Sala.all()
-
+    
     try {
-      await auth.use('web').attempt(email, password)
+      await auth.use('web').attempt(email, password)          
+      const a = await Database.from('users').whereRaw('email = ? and admin = 1', [email])
+      console.log(a)
       return view.render('layouts/main', { salas : salas})
     } catch (e) {
       console.log(e)
@@ -24,6 +28,7 @@ export default class SessionsController {
       return response.redirect().toRoute('sessions.create')
     }
   }
+
 
   public async destroy({ response, auth }: HttpContextContract) {
     await auth.use('web').logout()
