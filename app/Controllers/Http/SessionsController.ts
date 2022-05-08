@@ -16,10 +16,16 @@ export default class SessionsController {
     const salas = await Sala.all()
     
     try {
-      await auth.use('web').attempt(email, password)          
-      const a = await Database.from('users').whereRaw('email = ? and admin = 1', [email])
-      console.log(a)
-      return view.render('layouts/main', { salas : salas})
+     const user = await Database.rawQuery('select admin from users where email = ? and admin = 1',[email])
+     var admin = 0
+
+      for (const usery in user) {
+        if(usery == '0'){
+          admin = 1
+        }
+      }
+      await auth.use('web').attempt(email, password)   
+      return view.render('layouts/main', { salas : salas, admin: admin})
     } catch (e) {
       console.log(e)
       session.flashExcept(['login'])
